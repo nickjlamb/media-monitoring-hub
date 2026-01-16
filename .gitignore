@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# clasp (Apps Script CLI)
+.clasp.json
+.clasprc.json
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.credentials.json
+secrets/
+
+# Node modules (if using clasp or other tooling)
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
