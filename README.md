@@ -52,18 +52,13 @@ If no new entries are found, the run completes without generating output.
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    A[Config Sheet<br/>Sources, Endpoints, Queries]
-    B[fetchAllSources()<br/>RSS + YouTube API]
-    C[storeNewEntries()<br/>SHA-256 Deduplication]
-    D[generateDailySummary()<br/>Gemini API]
-    E[Daily_Summaries Sheet]
-
-    A --> B
-    B --> C
-    C -->|Only if new entries| D
-    D --> E
+| Stage | Component | Responsibility |
+|-------|-----------|----------------|
+| 1 | Config Sheet | Defines sources, endpoints, and queries |
+| 2 | `fetchAllSources()` | Fetches RSS feeds and YouTube API results |
+| 3 | `storeNewEntries()` | Deduplicates items using SHA-256 |
+| 4 | `generateDailySummary()` | Calls Gemini to produce structured output |
+| 5 | `Daily_Summaries` Sheet | Stores formatted daily briefings |
 
 The pipeline is idempotent: duplicate items are filtered using SHA-256 hashes, and summaries are generated only when new, non-duplicate signal is detected.
 
