@@ -51,26 +51,19 @@ Summaries are only created when `insertedCount > 0`. This prevents:
 If no new entries are found, the run completes without generating output.
 
 ## Architecture
-Config sheet (sources, endpoints, queries)
-│
-▼
-┌───────────────────────┐
-│   fetchAllSources     │ ─── RSS/Atom parser
-│                       │ ─── YouTube API client
-└───────────────────────┘
-│
-▼
-┌───────────────────────┐
-│   storeNewEntries     │ ─── SHA-256 deduplication
-└───────────────────────┘
-│
-▼ (only if new entries)
-┌───────────────────────┐
-│ generateDailySummary  │ ─── Gemini API
-└───────────────────────┘
-│
-▼
-Daily_Summaries sheet
+
+```mermaid
+flowchart TD
+    A[Config Sheet<br/>Sources, Endpoints, Queries]
+    B[fetchAllSources()<br/>RSS + YouTube API]
+    C[storeNewEntries()<br/>SHA-256 Deduplication]
+    D[generateDailySummary()<br/>Gemini API]
+    E[Daily_Summaries Sheet]
+
+    A --> B
+    B --> C
+    C -->|Only if new entries| D
+    D --> E
 
 The pipeline is idempotent: duplicate items are filtered using SHA-256 hashes, and summaries are generated only when new, non-duplicate signal is detected.
 
